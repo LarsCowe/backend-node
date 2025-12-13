@@ -7,8 +7,20 @@
     "start": "node index.js",
     "dev": "node --watch index.js"
   },
-  "keywords": ["api", "express", "films", "genres"],
+  "keywords": [
+    "api",
+    "express",
+    "films",
+    "genres"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "mysql2": "^3.15.3"
+  }
 }
