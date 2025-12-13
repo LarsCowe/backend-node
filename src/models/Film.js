@@ -2,16 +2,22 @@ const pool = require('../config/database');
 
 class Film {
     static async findAll(options = {}) {
-        const { limit, offset } = options;
+        const { limit, offset, search } = options;
 
         let query = `
             SELECT f.*, g.name as genre_name
             FROM films f
             LEFT JOIN genres g ON f.genre_id = g.id
-            ORDER BY f.id
         `;
 
         const params = [];
+
+        if (search) {
+            query += ' WHERE f.title LIKE ?';
+            params.push(`%${search}%`);
+        }
+
+        query += ' ORDER BY f.id';
 
         if (limit) {
             query += ' LIMIT ?';
