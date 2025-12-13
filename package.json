@@ -1,0 +1,14 @@
+{
+  "name": "backend-node",
+  "version": "1.0.0",
+  "description": "REST API for managing films and genres",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": ["api", "express", "films", "genres"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
