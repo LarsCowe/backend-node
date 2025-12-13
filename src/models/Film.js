@@ -1,13 +1,29 @@
 const pool = require('../config/database');
 
 class Film {
-    static async findAll() {
-        const [rows] = await pool.query(`
+    static async findAll(options = {}) {
+        const { limit, offset } = options;
+
+        let query = `
             SELECT f.*, g.name as genre_name
             FROM films f
             LEFT JOIN genres g ON f.genre_id = g.id
             ORDER BY f.id
-        `);
+        `;
+
+        const params = [];
+
+        if (limit) {
+            query += ' LIMIT ?';
+            params.push(parseInt(limit));
+
+            if (offset) {
+                query += ' OFFSET ?';
+                params.push(parseInt(offset));
+            }
+        }
+
+        const [rows] = await pool.query(query, params);
         return rows;
     }
 

@@ -3,7 +3,8 @@ const Film = require('../models/Film');
 const filmController = {
     async getAll(req, res) {
         try {
-            const films = await Film.findAll();
+            const { limit, offset } = req.query;
+            const films = await Film.findAll({ limit, offset });
             res.json(films);
         } catch (error) {
             res.status(500).json({ error: error.message });
