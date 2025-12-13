@@ -1,13 +1,10 @@
-const mysql = require('mysql2/promise');
+const Database = require('better-sqlite3');
+const path = require('path');
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+const dbPath = path.join(__dirname, '../../database/films.db');
+const db = new Database(dbPath);
 
-module.exports = pool;
+// Enable foreign keys
+db.pragma('foreign_keys = ON');
+
+module.exports = db;

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Films API Documentation</title>
+</head>
+<body>
+    <h1>Films & Genres API</h1>
+    <p>REST API for managing films and genres.</p>
+
+    <h2>Base URL</h2>
+    <p><code>http://localhost:3000</code></p>
+
+    <h2>Genres</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/genres</code></td>
+                <td>Get all genres</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/genres/:id</code></td>
+                <td>Get genre by ID</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/api/genres</code></td>
+                <td>Create a new genre</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td><code>/api/genres/:id</code></td>
+                <td>Update a genre</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td><code>/api/genres/:id</code></td>
+                <td>Delete a genre</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Genre Object</h3>
+    <pre>
+{
+    "id": 1,
+    "name": "Action",
+    "description": "Action movies with lots of explosions"
+}
+    </pre>
+
+    <h3>Validation Rules</h3>
+    <ul>
+        <li><strong>name</strong>: Required, cannot contain numbers</li>
+        <li><strong>description</strong>: Optional</li>
+    </ul>
+
+    <h2>Films</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/films</code></td>
+                <td>Get all films</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/films?limit=10&offset=0</code></td>
+                <td>Get films with pagination</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/films?search=matrix</code></td>
+                <td>Search films by title</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/films/:id</code></td>
+                <td>Get film by ID</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/api/films</code></td>
+                <td>Create a new film</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td><code>/api/films/:id</code></td>
+                <td>Update a film</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td><code>/api/films/:id</code></td>
+                <td>Delete a film</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Film Object</h3>
+    <pre>
+{
+    "id": 1,
+    "title": "The Matrix",
+    "description": "A computer hacker learns about the true nature of reality",
+    "release_year": 1999,
+    "duration_minutes": 136,
+    "genre_id": 1,
+    "genre_name": "Action"
+}
+    </pre>
+
+    <h3>Validation Rules</h3>
+    <ul>
+        <li><strong>title</strong>: Required</li>
+        <li><strong>description</strong>: Optional</li>
+        <li><strong>release_year</strong>: Optional, must be a valid year (1888-current)</li>
+        <li><strong>duration_minutes</strong>: Optional, must be a positive number</li>
+        <li><strong>genre_id</strong>: Optional, must reference an existing genre</li>
+    </ul>
+
+    <h3>Query Parameters</h3>
+    <ul>
+        <li><strong>limit</strong>: Maximum number of results to return</li>
+        <li><strong>offset</strong>: Number of results to skip (for pagination)</li>
+        <li><strong>search</strong>: Search films by title (partial match)</li>
+    </ul>
+</body>
+</html>

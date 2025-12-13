@@ -1,7 +1,7 @@
-const pool = require('../config/database');
+const db = require('../config/database');
 
 class Film {
-    static async findAll(options = {}) {
+    static findAll(options = {}) {
         const { limit, offset, search } = options;
 
         let query = `
@@ -29,41 +29,37 @@ class Film {
             }
         }
 
-        const [rows] = await pool.query(query, params);
-        return rows;
+        return db.prepare(query).all(...params);
     }
 
-    static async findById(id) {
-        const [rows] = await pool.query(`
+    static findById(id) {
+        return db.prepare(`
             SELECT f.*, g.name as genre_name
             FROM films f
             LEFT JOIN genres g ON f.genre_id = g.id
             WHERE f.id = ?
-        `, [id]);
-        return rows[0];
+        `).get(id);
     }
 
-    static async create(data) {
+    static create(data) {
         const { title, description, release_year, duration_minutes, genre_id } = data;
-        const [result] = await pool.query(
-            'INSERT INTO films (title, description, release_year, duration_minutes, genre_id) VALUES (?, ?, ?, ?, ?)',
-            [title, description, release_year, duration_minutes, genre_id]
-        );
-        return this.findById(result.insertId);
+        const result = db.prepare(
+            'INSERT INTO films (title, description, release_year, duration_minutes, genre_id) VALUES (?, ?, ?, ?, ?)'
+        ).run(title, description, release_year, duration_minutes, genre_id);
+        return this.findById(result.lastInsertRowid);
     }
 
-    static async update(id, data) {
+    static update(id, data) {
         const { title, description, release_year, duration_minutes, genre_id } = data;
-        await pool.query(
-            'UPDATE films SET title = ?, description = ?, release_year = ?, duration_minutes = ?, genre_id = ? WHERE id = ?',
-            [title, description, release_year, duration_minutes, genre_id, id]
-        );
+        db.prepare(
+            'UPDATE films SET title = ?, description = ?, release_year = ?, duration_minutes = ?, genre_id = ? WHERE id = ?'
+        ).run(title, description, release_year, duration_minutes, genre_id, id);
         return this.findById(id);
     }
 
-    static async delete(id) {
-        const [result] = await pool.query('DELETE FROM films WHERE id = ?', [id]);
-        return result.affectedRows > 0;
+    static delete(id) {
+        const result = db.prepare('DELETE FROM films WHERE id = ?').run(id);
+        return result.changes > 0;
     }
 }
 

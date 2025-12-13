@@ -1,19 +1,19 @@
 const Film = require('../models/Film');
 
 const filmController = {
-    async getAll(req, res) {
+    getAll(req, res) {
         try {
             const { limit, offset, search } = req.query;
-            const films = await Film.findAll({ limit, offset, search });
+            const films = Film.findAll({ limit, offset, search });
             res.json(films);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
 
-    async getById(req, res) {
+    getById(req, res) {
         try {
-            const film = await Film.findById(req.params.id);
+            const film = Film.findById(req.params.id);
             if (!film) {
                 return res.status(404).json({ error: 'Film not found' });
             }
@@ -23,31 +23,31 @@ const filmController = {
         }
     },
 
-    async create(req, res) {
+    create(req, res) {
         try {
-            const film = await Film.create(req.body);
+            const film = Film.create(req.body);
             res.status(201).json(film);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
 
-    async update(req, res) {
+    update(req, res) {
         try {
-            const film = await Film.findById(req.params.id);
+            const film = Film.findById(req.params.id);
             if (!film) {
                 return res.status(404).json({ error: 'Film not found' });
             }
-            const updated = await Film.update(req.params.id, req.body);
+            const updated = Film.update(req.params.id, req.body);
             res.json(updated);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
 
-    async delete(req, res) {
+    delete(req, res) {
         try {
-            const deleted = await Film.delete(req.params.id);
+            const deleted = Film.delete(req.params.id);
             if (!deleted) {
                 return res.status(404).json({ error: 'Film not found' });
             }
