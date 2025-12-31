@@ -4,7 +4,7 @@ class Film {
     static ALLOWED_SORT_FIELDS = ['id', 'title', 'release_year', 'duration_minutes', 'created_at'];
 
     static findAll(options = {}) {
-        const { limit, offset, search, sort, order } = options;
+        const { limit, offset, search, sort, order, genre_id, min_year, max_year, min_duration, max_duration } = options;
 
         let query = `
             SELECT f.*, g.name as genre_name
@@ -13,10 +13,40 @@ class Film {
         `;
 
         const params = [];
+        const conditions = [];
 
         if (search) {
-            query += ' WHERE f.title LIKE ?';
+            conditions.push('f.title LIKE ?');
             params.push(`%${search}%`);
+        }
+
+        if (genre_id) {
+            conditions.push('f.genre_id = ?');
+            params.push(parseInt(genre_id));
+        }
+
+        if (min_year) {
+            conditions.push('f.release_year >= ?');
+            params.push(parseInt(min_year));
+        }
+
+        if (max_year) {
+            conditions.push('f.release_year <= ?');
+            params.push(parseInt(max_year));
+        }
+
+        if (min_duration) {
+            conditions.push('f.duration_minutes >= ?');
+            params.push(parseInt(min_duration));
+        }
+
+        if (max_duration) {
+            conditions.push('f.duration_minutes <= ?');
+            params.push(parseInt(max_duration));
+        }
+
+        if (conditions.length > 0) {
+            query += ' WHERE ' + conditions.join(' AND ');
         }
 
         const sortField = this.ALLOWED_SORT_FIELDS.includes(sort) ? sort : 'id';

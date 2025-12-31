@@ -52,6 +52,8 @@ De API draait nu op `http://localhost:3000`
 | GET | `/api/films?limit=10&offset=0` | Films met paginatie |
 | GET | `/api/films?search=matrix` | Films zoeken op titel |
 | GET | `/api/films?sort=release_year&order=desc` | Films sorteren |
+| GET | `/api/films?genre_id=5` | Films filteren op genre |
+| GET | `/api/films?min_year=2000&max_year=2020` | Films filteren op jaar |
 | GET | `/api/films/:id` | Film op ID ophalen |
 | POST | `/api/films` | Nieuwe film aanmaken |
 | PUT | `/api/films/:id` | Film updaten |

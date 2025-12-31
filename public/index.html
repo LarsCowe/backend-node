@@ -97,6 +97,16 @@
             </tr>
             <tr>
                 <td>GET</td>
+                <td><code>/api/films?genre_id=5</code></td>
+                <td>Filter films by genre</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/films?min_year=2000&max_year=2020</code></td>
+                <td>Filter films by release year range</td>
+            </tr>
+            <tr>
+                <td>GET</td>
                 <td><code>/api/films/:id</code></td>
                 <td>Get film by ID</td>
             </tr>
@@ -147,6 +157,11 @@
         <li><strong>search</strong>: Search films by title (partial match)</li>
         <li><strong>sort</strong>: Field to sort by (id, title, release_year, duration_minutes, created_at)</li>
         <li><strong>order</strong>: Sort order (asc or desc, default: asc)</li>
+        <li><strong>genre_id</strong>: Filter by genre ID</li>
+        <li><strong>min_year</strong>: Minimum release year</li>
+        <li><strong>max_year</strong>: Maximum release year</li>
+        <li><strong>min_duration</strong>: Minimum duration in minutes</li>
+        <li><strong>max_duration</strong>: Maximum duration in minutes</li>
     </ul>
 </body>
 </html>
