@@ -163,5 +163,68 @@
         <li><strong>min_duration</strong>: Minimum duration in minutes</li>
         <li><strong>max_duration</strong>: Maximum duration in minutes</li>
     </ul>
+
+    <h2>Response Format</h2>
+
+    <h3>Success Response</h3>
+    <pre>
+{
+    "success": true,
+    "data": { ... }
+}
+    </pre>
+
+    <h3>Error Response</h3>
+    <pre>
+{
+    "success": false,
+    "error": {
+        "code": "NOT_FOUND",
+        "message": "Film not found"
+    }
+}
+    </pre>
+
+    <h3>Validation Error Response</h3>
+    <pre>
+{
+    "success": false,
+    "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "Validation failed",
+        "details": [
+            { "field": "title", "message": "Title is required" }
+        ]
+    }
+}
+    </pre>
+
+    <h3>Error Codes</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>HTTP Status</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>NOT_FOUND</code></td>
+                <td>404</td>
+                <td>Resource not found</td>
+            </tr>
+            <tr>
+                <td><code>VALIDATION_ERROR</code></td>
+                <td>400</td>
+                <td>Validation failed</td>
+            </tr>
+            <tr>
+                <td><code>INTERNAL_ERROR</code></td>
+                <td>500</td>
+                <td>Internal server error</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

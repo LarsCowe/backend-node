@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const { errorResponse } = require('../utils/errors');
 
 const filmValidationRules = [
     body('title')
@@ -21,7 +22,11 @@ const filmValidationRules = [
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const details = errors.array().map(err => ({
+            field: err.path,
+            message: err.msg
+        }));
+        return errorResponse(res, 'VALIDATION_ERROR', 'Validation failed', details);
     }
     next();
 };

@@ -1,13 +1,14 @@
 const Film = require('../models/Film');
+const { errorResponse, successResponse } = require('../utils/errors');
 
 const filmController = {
     getAll(req, res) {
         try {
             const { limit, offset, search, sort, order, genre_id, min_year, max_year, min_duration, max_duration } = req.query;
             const films = Film.findAll({ limit, offset, search, sort, order, genre_id, min_year, max_year, min_duration, max_duration });
-            res.json(films);
+            return successResponse(res, films);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
@@ -15,20 +16,20 @@ const filmController = {
         try {
             const film = Film.findById(req.params.id);
             if (!film) {
-                return res.status(404).json({ error: 'Film not found' });
+                return errorResponse(res, 'NOT_FOUND', 'Film not found');
             }
-            res.json(film);
+            return successResponse(res, film);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
     create(req, res) {
         try {
             const film = Film.create(req.body);
-            res.status(201).json(film);
+            return successResponse(res, film, 201);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
@@ -36,12 +37,12 @@ const filmController = {
         try {
             const film = Film.findById(req.params.id);
             if (!film) {
-                return res.status(404).json({ error: 'Film not found' });
+                return errorResponse(res, 'NOT_FOUND', 'Film not found');
             }
             const updated = Film.update(req.params.id, req.body);
-            res.json(updated);
+            return successResponse(res, updated);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
@@ -49,11 +50,11 @@ const filmController = {
         try {
             const deleted = Film.delete(req.params.id);
             if (!deleted) {
-                return res.status(404).json({ error: 'Film not found' });
+                return errorResponse(res, 'NOT_FOUND', 'Film not found');
             }
-            res.status(204).send();
+            return res.status(204).send();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     }
 };

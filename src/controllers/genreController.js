@@ -1,12 +1,13 @@
 const Genre = require('../models/Genre');
+const { errorResponse, successResponse } = require('../utils/errors');
 
 const genreController = {
     getAll(req, res) {
         try {
             const genres = Genre.findAll();
-            res.json(genres);
+            return successResponse(res, genres);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
@@ -14,20 +15,20 @@ const genreController = {
         try {
             const genre = Genre.findById(req.params.id);
             if (!genre) {
-                return res.status(404).json({ error: 'Genre not found' });
+                return errorResponse(res, 'NOT_FOUND', 'Genre not found');
             }
-            res.json(genre);
+            return successResponse(res, genre);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
     create(req, res) {
         try {
             const genre = Genre.create(req.body);
-            res.status(201).json(genre);
+            return successResponse(res, genre, 201);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
@@ -35,12 +36,12 @@ const genreController = {
         try {
             const genre = Genre.findById(req.params.id);
             if (!genre) {
-                return res.status(404).json({ error: 'Genre not found' });
+                return errorResponse(res, 'NOT_FOUND', 'Genre not found');
             }
             const updated = Genre.update(req.params.id, req.body);
-            res.json(updated);
+            return successResponse(res, updated);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     },
 
@@ -48,11 +49,11 @@ const genreController = {
         try {
             const deleted = Genre.delete(req.params.id);
             if (!deleted) {
-                return res.status(404).json({ error: 'Genre not found' });
+                return errorResponse(res, 'NOT_FOUND', 'Genre not found');
             }
-            res.status(204).send();
+            return res.status(204).send();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return errorResponse(res, 'INTERNAL_ERROR', error.message);
         }
     }
 };
