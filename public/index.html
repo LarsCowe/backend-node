@@ -92,6 +92,11 @@
             </tr>
             <tr>
                 <td>GET</td>
+                <td><code>/api/films?sort=release_year&order=desc</code></td>
+                <td>Sort films by field (asc/desc)</td>
+            </tr>
+            <tr>
+                <td>GET</td>
                 <td><code>/api/films/:id</code></td>
                 <td>Get film by ID</td>
             </tr>
@@ -140,6 +145,8 @@
         <li><strong>limit</strong>: Maximum number of results to return</li>
         <li><strong>offset</strong>: Number of results to skip (for pagination)</li>
         <li><strong>search</strong>: Search films by title (partial match)</li>
+        <li><strong>sort</strong>: Field to sort by (id, title, release_year, duration_minutes, created_at)</li>
+        <li><strong>order</strong>: Sort order (asc or desc, default: asc)</li>
     </ul>
 </body>
 </html>

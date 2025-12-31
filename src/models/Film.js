@@ -1,8 +1,10 @@
 const db = require('../config/database');
 
 class Film {
+    static ALLOWED_SORT_FIELDS = ['id', 'title', 'release_year', 'duration_minutes', 'created_at'];
+
     static findAll(options = {}) {
-        const { limit, offset, search } = options;
+        const { limit, offset, search, sort, order } = options;
 
         let query = `
             SELECT f.*, g.name as genre_name
@@ -17,7 +19,9 @@ class Film {
             params.push(`%${search}%`);
         }
 
-        query += ' ORDER BY f.id';
+        const sortField = this.ALLOWED_SORT_FIELDS.includes(sort) ? sort : 'id';
+        const sortOrder = order?.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+        query += ` ORDER BY f.${sortField} ${sortOrder}`;
 
         if (limit) {
             query += ' LIMIT ?';
