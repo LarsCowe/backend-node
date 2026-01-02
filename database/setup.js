@@ -27,6 +27,17 @@ db.exec(`
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE SET NULL
     );
+
+    CREATE TABLE IF NOT EXISTS reviews (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        film_id INTEGER NOT NULL,
+        reviewer_name TEXT NOT NULL,
+        rating INTEGER NOT NULL,
+        comment TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
+    );
 `);
 
 console.log('Tables created.');
@@ -75,7 +86,28 @@ if (genreCount.count === 0) {
         insertFilm.run(...film);
     }
 
-    console.log('Data seeded: 8 genres, 10 films');
+    // Seed reviews
+    const insertReview = db.prepare(
+        'INSERT INTO reviews (film_id, reviewer_name, rating, comment) VALUES (?, ?, ?, ?)'
+    );
+    const reviews = [
+        [1, 'John Smith', 5, 'A groundbreaking film that changed cinema forever. The visual effects were revolutionary.'],
+        [1, 'Jane Doe', 4, 'Great action sequences and thought-provoking storyline.'],
+        [2, 'Mike Johnson', 5, 'Mind-bending plot that keeps you guessing until the very end.'],
+        [2, 'Sarah Wilson', 4, 'Visually stunning with an incredible score by Hans Zimmer.'],
+        [3, 'Chris Brown', 5, 'Heath Ledger delivers an unforgettable performance as the Joker.'],
+        [4, 'Emily Davis', 4, 'Tarantino at his finest. The dialogue is exceptional.'],
+        [5, 'David Miller', 5, 'A timeless masterpiece about hope and friendship.'],
+        [6, 'Lisa Anderson', 5, 'Tom Hanks gives a heartwarming performance.'],
+        [7, 'Robert Taylor', 5, 'The definitive gangster movie. An offer you cannot refuse.'],
+        [8, 'Amanda White', 4, 'Ambitious sci-fi with emotional depth and stunning visuals.']
+    ];
+
+    for (const review of reviews) {
+        insertReview.run(...review);
+    }
+
+    console.log('Data seeded: 8 genres, 10 films, 10 reviews');
 } else {
     console.log('Data already exists, skipping seed.');
 }
