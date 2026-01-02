@@ -68,10 +68,14 @@ class Film {
 
     static findById(id) {
         return db.prepare(`
-            SELECT f.*, g.name as genre_name
+            SELECT f.*, g.name as genre_name,
+                ROUND(AVG(r.rating), 1) as average_rating,
+                COUNT(r.id) as review_count
             FROM films f
             LEFT JOIN genres g ON f.genre_id = g.id
+            LEFT JOIN reviews r ON f.id = r.film_id
             WHERE f.id = ?
+            GROUP BY f.id
         `).get(id);
     }
 
