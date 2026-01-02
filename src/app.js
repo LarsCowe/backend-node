@@ -4,6 +4,7 @@ const path = require('path');
 
 const genreRoutes = require('./routes/genreRoutes');
 const filmRoutes = require('./routes/filmRoutes');
+const healthRoutes = require('./routes/healthRoutes');
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Routes
 app.use('/api/genres', genreRoutes);
 app.use('/api/films', filmRoutes);
+app.use('/api/health', healthRoutes);
 
 module.exports = app;

@@ -164,6 +164,40 @@
         <li><strong>max_duration</strong>: Maximum duration in minutes</li>
     </ul>
 
+    <h2>Health Check</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td><code>/api/health</code></td>
+                <td>Check API and database status</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Health Response</h3>
+    <pre>
+{
+    "success": true,
+    "data": {
+        "status": "healthy",
+        "timestamp": "2025-12-31T12:00:00.000Z",
+        "uptime": 3600,
+        "version": "1.0.0",
+        "database": {
+            "status": "connected"
+        }
+    }
+}
+    </pre>
+
     <h2>Response Format</h2>
 
     <h3>Success Response</h3>
