@@ -54,10 +54,25 @@ De API draait nu op `http://localhost:3000`
 | GET | `/api/films?sort=release_year&order=desc` | Films sorteren |
 | GET | `/api/films?genre_id=5` | Films filteren op genre |
 | GET | `/api/films?min_year=2000&max_year=2020` | Films filteren op jaar |
-| GET | `/api/films/:id` | Film op ID ophalen |
+| GET | `/api/films/:id` | Film op ID ophalen (incl. average_rating en review_count) |
+| GET | `/api/films/:id/reviews` | Reviews voor een specifieke film |
 | POST | `/api/films` | Nieuwe film aanmaken |
 | PUT | `/api/films/:id` | Film updaten |
 | DELETE | `/api/films/:id` | Film verwijderen |
+
+### Reviews
+
+| Method | Endpoint | Beschrijving |
+|--------|----------|--------------|
+| GET | `/api/reviews` | Alle reviews ophalen |
+| GET | `/api/reviews?limit=10&offset=0` | Reviews met paginatie |
+| GET | `/api/reviews?film_id=1` | Reviews filteren op film |
+| GET | `/api/reviews?min_rating=4&max_rating=5` | Reviews filteren op rating |
+| GET | `/api/reviews?sort=rating&order=desc` | Reviews sorteren |
+| GET | `/api/reviews/:id` | Review op ID ophalen |
+| POST | `/api/reviews` | Nieuwe review aanmaken |
+| PUT | `/api/reviews/:id` | Review updaten |
+| DELETE | `/api/reviews/:id` | Review verwijderen |
 
 ## Validatie
 
@@ -69,6 +84,12 @@ De API draait nu op `http://localhost:3000`
 - `release_year`: Optioneel, moet een geldig jaar zijn (1888-heden)
 - `duration_minutes`: Optioneel, moet een positief getal zijn
 - `genre_id`: Optioneel, moet verwijzen naar een bestaand genre
+
+### Reviews
+- `film_id`: Verplicht, moet verwijzen naar een bestaande film
+- `reviewer_name`: Verplicht, 2-100 karakters, mag geen cijfers bevatten
+- `rating`: Verplicht, geheel getal tussen 1 en 5
+- `comment`: Optioneel, maximaal 1000 karakters
 
 ## Technische Stack
 
