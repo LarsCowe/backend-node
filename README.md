@@ -2,30 +2,47 @@
 
 REST API voor het beheren van films en genres, gebouwd met Node.js en Express.
 
+## Features
+
+- **CRUD Operaties**: Volledige Create, Read, Update, Delete functionaliteit voor Films, Genres en Reviews.
+- **Geavanceerd Zoeken & Filteren**: 
+  - Zoek films op titel.
+  - Filter op genre en release jaar (min/max).
+  - Sorteer mogelijkheden (op jaar, rating, etc).
+- **Paginatie**: Ondersteuning voor limit en offset bij het ophalen van lijsten.
+- **Reviews & Ratings**: Reviews toevoegen en inzien, inclusief berekende gemiddelde scores per film.
+- **Data Validatie**: Robuuste validatie van input data zorgt voor betrouwbare en veilige data opslag.
+- **Gezondheidsmonitor**: Health check endpoint (`/api/health`) om de status van de API te controleren.
+
 ## Installatie
 
 1. Clone de repository:
+
 ```bash
 git clone https://github.com/LarsCowe/backend-node.git
 cd backend-node
 ```
 
 2. Installeer dependencies:
+
 ```bash
 npm install
 ```
 
 3. Initialiseer de database met seed data:
+
 ```bash
 npm run setup
 ```
 
 4. Start de server:
+
 ```bash
 npm start
 ```
 
 Of voor development (met auto-reload):
+
 ```bash
 npm run dev
 ```
@@ -36,56 +53,59 @@ De API draait nu op `http://localhost:3000`
 
 ### Genres
 
-| Method | Endpoint | Beschrijving |
-|--------|----------|--------------|
-| GET | `/api/genres` | Alle genres ophalen |
-| GET | `/api/genres/:id` | Genre op ID ophalen |
-| POST | `/api/genres` | Nieuw genre aanmaken |
-| PUT | `/api/genres/:id` | Genre updaten |
-| DELETE | `/api/genres/:id` | Genre verwijderen |
+| Method | Endpoint          | Beschrijving         |
+| ------ | ----------------- | -------------------- |
+| GET    | `/api/genres`     | Alle genres ophalen  |
+| GET    | `/api/genres/:id` | Genre op ID ophalen  |
+| POST   | `/api/genres`     | Nieuw genre aanmaken |
+| PUT    | `/api/genres/:id` | Genre updaten        |
+| DELETE | `/api/genres/:id` | Genre verwijderen    |
 
 ### Films
 
-| Method | Endpoint | Beschrijving |
-|--------|----------|--------------|
-| GET | `/api/films` | Alle films ophalen |
-| GET | `/api/films?limit=10&offset=0` | Films met paginatie |
-| GET | `/api/films?search=matrix` | Films zoeken op titel |
-| GET | `/api/films?sort=release_year&order=desc` | Films sorteren |
-| GET | `/api/films?genre_id=5` | Films filteren op genre |
-| GET | `/api/films?min_year=2000&max_year=2020` | Films filteren op jaar |
-| GET | `/api/films/:id` | Film op ID ophalen (incl. average_rating en review_count) |
-| GET | `/api/films/:id/reviews` | Reviews voor een specifieke film |
-| POST | `/api/films` | Nieuwe film aanmaken |
-| PUT | `/api/films/:id` | Film updaten |
-| DELETE | `/api/films/:id` | Film verwijderen |
+| Method | Endpoint                                  | Beschrijving                                              |
+| ------ | ----------------------------------------- | --------------------------------------------------------- |
+| GET    | `/api/films`                              | Alle films ophalen                                        |
+| GET    | `/api/films?limit=10&offset=0`            | Films met paginatie                                       |
+| GET    | `/api/films?search=matrix`                | Films zoeken op titel                                     |
+| GET    | `/api/films?sort=release_year&order=desc` | Films sorteren                                            |
+| GET    | `/api/films?genre_id=5`                   | Films filteren op genre                                   |
+| GET    | `/api/films?min_year=2000&max_year=2020`  | Films filteren op jaar                                    |
+| GET    | `/api/films/:id`                          | Film op ID ophalen (incl. average_rating en review_count) |
+| GET    | `/api/films/:id/reviews`                  | Reviews voor een specifieke film                          |
+| POST   | `/api/films`                              | Nieuwe film aanmaken                                      |
+| PUT    | `/api/films/:id`                          | Film updaten                                              |
+| DELETE | `/api/films/:id`                          | Film verwijderen                                          |
 
 ### Reviews
 
-| Method | Endpoint | Beschrijving |
-|--------|----------|--------------|
-| GET | `/api/reviews` | Alle reviews ophalen |
-| GET | `/api/reviews?limit=10&offset=0` | Reviews met paginatie |
-| GET | `/api/reviews?film_id=1` | Reviews filteren op film |
-| GET | `/api/reviews?min_rating=4&max_rating=5` | Reviews filteren op rating |
-| GET | `/api/reviews?sort=rating&order=desc` | Reviews sorteren |
-| GET | `/api/reviews/:id` | Review op ID ophalen |
-| POST | `/api/reviews` | Nieuwe review aanmaken |
-| PUT | `/api/reviews/:id` | Review updaten |
-| DELETE | `/api/reviews/:id` | Review verwijderen |
+| Method | Endpoint                                 | Beschrijving               |
+| ------ | ---------------------------------------- | -------------------------- |
+| GET    | `/api/reviews`                           | Alle reviews ophalen       |
+| GET    | `/api/reviews?limit=10&offset=0`         | Reviews met paginatie      |
+| GET    | `/api/reviews?film_id=1`                 | Reviews filteren op film   |
+| GET    | `/api/reviews?min_rating=4&max_rating=5` | Reviews filteren op rating |
+| GET    | `/api/reviews?sort=rating&order=desc`    | Reviews sorteren           |
+| GET    | `/api/reviews/:id`                       | Review op ID ophalen       |
+| POST   | `/api/reviews`                           | Nieuwe review aanmaken     |
+| PUT    | `/api/reviews/:id`                       | Review updaten             |
+| DELETE | `/api/reviews/:id`                       | Review verwijderen         |
 
 ## Validatie
 
 ### Genres
+
 - `name`: Verplicht, mag geen cijfers bevatten
 
 ### Films
+
 - `title`: Verplicht
 - `release_year`: Optioneel, moet een geldig jaar zijn (1888-heden)
 - `duration_minutes`: Optioneel, moet een positief getal zijn
 - `genre_id`: Optioneel, moet verwijzen naar een bestaand genre
 
 ### Reviews
+
 - `film_id`: Verplicht, moet verwijzen naar een bestaande film
 - `reviewer_name`: Verplicht, 2-100 karakters, mag geen cijfers bevatten
 - `rating`: Verplicht, geheel getal tussen 1 en 5
@@ -100,6 +120,8 @@ De API draait nu op `http://localhost:3000`
 
 ## Bronvermeldingen
 
+- [Node.js documentatie](https://nodejs.org/docs/)
 - [Express.js documentatie](https://expressjs.com/)
 - [better-sqlite3 documentatie](https://github.com/WiseLibs/better-sqlite3)
 - [express-validator documentatie](https://express-validator.github.io/)
+- GitHub Copilot (gebruikt voor autocompletion en code suggesties)
